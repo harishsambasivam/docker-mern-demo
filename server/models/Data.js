@@ -10,4 +10,6 @@ const Data = sequelize.define('Data', {
 
 Data.sync({ alter: true })
 
+new Data({ "text": "Have a good day!" });
+new Data({ "text": "Lorem ipsum dolor" });
 module.exports = Data;

@@ -1,11 +1,14 @@
 const { Sequelize } = require('sequelize');
-const sequelize = null;
+let connection = null;
 
 
 const connect = () => {
     const { DB_USERNAME, DB_HOST, DB_PASSWORD, DB_PORT, DB_NAME } = process.env;
-    sequelize = new Sequelize(`postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/{${DB_NAME}}`);
+    connection = new Sequelize(`postgres://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`);
+    return connection;
 }
+
+const sequelize = (() => connection ? connection : connect())();
 
 module.exports = {
     connect,

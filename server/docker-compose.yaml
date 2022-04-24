@@ -1,0 +1,16 @@
+version: "2.4"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-pastebin
+    ports:
+      - ${DB_PORT}:5432
+    environment:
+      - POSTGRES_USER="${DB_USERNAME}"
+      - POSTGRES_PASSWORD="${DB_PASSWORD}"
+      - POSTGRES_DB="${DB_NAME}"
+    volumes:
+      - postgresData:/var/lib/postgresql/data
+
+volumes:
+   postgresData:

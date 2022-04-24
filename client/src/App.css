@@ -1,0 +1,13 @@
+*{
+  padding: 0;
+  margin:0;
+  box-sizing: border-box;
+}
+
+.App {
+  display: grid;
+  width:100%;
+  place-items: center;
+  padding:1rem;
+}
+

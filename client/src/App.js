@@ -9,7 +9,7 @@ function App() {
 
   useEffect(() => {
     // fetch data from server
-    const data = fetch("http://localhost:3000/pastebin").then(data => data.json()).then(({ data }) => {
+    const data = fetch("http://localhost:5500/pastebin").then(data => data.json()).then(({ data }) => {
       const allPastedData = data.map(({ text }) => text);
       setData([...allPastedData]);
     });
@@ -17,7 +17,7 @@ function App() {
 
   const addData = (newData) => {
     setData([...data, newData]);
-    fetch("http://localhost:3000/pastebin", {
+    fetch("http://localhost:5500/pastebin", {
       method: "post",
       body: JSON.stringify({
         text: newData

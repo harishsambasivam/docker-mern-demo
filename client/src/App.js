@@ -9,13 +9,25 @@ function App() {
 
   useEffect(() => {
     // fetch data from server
-    const storedData = ["Eat healthy Food", "Sleep early"];
-    setData([...storedData]);
+    const data = fetch("http://localhost:3000/pastebin").then(data => data.json()).then(({ data }) => {
+      const allPastedData = data.map(({ text }) => text);
+      setData([...allPastedData]);
+    });
   }, []);
 
   const addData = (newData) => {
     setData([...data, newData]);
-    // store the data in server
+    fetch("http://localhost:3000/pastebin", {
+      method: "post",
+      body: JSON.stringify({
+        text: newData
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    }).then(data => data.json()).then(data => {
+      console.log(data);
+    });
   }
 
   return (

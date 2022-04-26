@@ -1,8 +1,12 @@
 const byjusLogger = require('byjus-logger');
 
-const { contextMiddleware, logger } = byjusLogger.init("dev");
+const { contextMiddleware, logger, httpLogger, pinoHttpLogger } = byjusLogger.init("dev", {
+    pretty: true
+});
 
 module.exports = {
     contextMiddleware,
-    logger
+    logger,
+    httpLogger,
+    pinoHttpLogger
 }

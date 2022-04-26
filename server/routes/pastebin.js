@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const { getPastedData, addData } = require("../controller/pastebin");
+const { logger } = require("../config/logger");
+
 
 router.get("/", async (req, res) => {
+    logger.info("Router: GET /pastedData");
     try {
         const data = await getPastedData();
         return res.status(200).json({
@@ -10,6 +13,7 @@ router.get("/", async (req, res) => {
             status: "success"
         });
     } catch (err) {
+        logger.error(err);
         return res.status(err.statusCode || 500).json({
             status: "error",
             message: err.message || "Something went wrong"
@@ -18,21 +22,19 @@ router.get("/", async (req, res) => {
 });
 
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
+    logger.info("Router: POST /pastedData");
     try {
         const data = req.body;
         const result = await addData(data);
-        res.status(200).json({
-            data: result,
-            status: "success"
-        })
+        // res.status(200).json({
+        //     data: result,
+        //     status: "success"
+        // })
     } catch (err) {
-        res.status(err.statusCode || 500).json({
-            status: "error",
-            message: err.message || "Something went wrong"
-        })
+        logger.error(err);
+        next(err);
     }
-
 });
 
 module.exports = router;

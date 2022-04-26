@@ -1,28 +1,44 @@
+const dotenv = require('dotenv');
+dotenv.config();
+
+const tracer = require('dd-trace').init({
+    profiling: true,
+    env: process.env.NODE_ENV,
+});
+
 const express = require("express");
 const server = express();
 const cors = require('cors');
-const dotenv = require('dotenv');
-dotenv.config();
+const { contextMiddleware, logger } = require("./config/logger");
 const { connect } = require("./config/db");
 const pasteBinRouter = require("./routes/pastebin");
 const sequelize = connect();
 
 
-(async function () {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-        server.use(express.json());
-        server.use(cors());
-        server.use('/pastebin', pasteBinRouter);
-        server.listen(process.env.PORT, () => {
-            console.log(`Server running on PORT ${process.env.PORT}`);
-        })
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-})();
+console.log('Connection has been established successfully.');
+server.use(express.json());
+server.use(cors());
+
+
+server.use(contextMiddleware);
+
+
+server.use('/pastebin', pasteBinRouter);
+
+server.listen(process.env.PORT, () => {
+    logger.info(`Server running on PORT ${process.env.PORT}`);
+})
 
 
 
+server.use((err, req, res, next) => {
 
+    const span = tracer.scope().active()
+    span.setTag('customer.id', "12345")
+
+    res.status(err.statusCode || 500).json({
+        status: "error-global",
+        message: err.message || "Something went wrong"
+    })
+
+})

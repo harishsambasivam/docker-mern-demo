@@ -1,16 +1,16 @@
 FROM node:14
 
-ENV PORT=3000 \
+ENV PORT=5500 \
     DB_USERNAME=postgres \
     DB_HOST=localhost \
     DB_PASSWORD=password \
     DB_NAME=postgres \
     DB_PORT=5432 
 
-RUN mkdir -p ~/app
+RUN mkdir -p /home/app
 
-COPY . ~/app
+COPY . /home/app
 
-RUN docker-compose up -d
+EXPOSE 3000
 
-CMD ["node","index.js"]
+CMD cd home/app && cd server && node index.js && cd .. && npm start

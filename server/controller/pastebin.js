@@ -1,22 +1,33 @@
 const Data = require("../models/Data");
+const { logger } = require("../config/logger");
 
 const getPastedData = async () => {
+    logger.info("Controller: Get Pasted Data");
     try {
-        const data = await Data.findAll();
+        const data = await Data.findAll({
+            order: [
+                ['createdAt', 'DESC'],
+            ],
+        });
         return data;
     } catch (err) {
+        logger.error(err);
         throw err;
     }
 }
 
 
-const addData = async (newData) => {
-    console.log(newData)
+async function addData(newData) {
+    logger.info("Controller: Add New Data");
+
     try {
+        newData.text = newData.text !== "" ? newData.text : null;
         const data = await Data.create(newData);
-        console.log(data);
         return data;
+
     } catch (err) {
+        logger.error(err);
+        err.statusCode = 400;
         throw err;
     }
 }

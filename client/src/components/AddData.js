@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 export default function AddData({ addData }) {
 
     const handlePaste = (event) => {
-        if (event.key === 'Enter' && event.target.value !== "") {
+        if (event.key === 'Enter') {
             addData(event.target.value);
             event.target.value = "";
         }

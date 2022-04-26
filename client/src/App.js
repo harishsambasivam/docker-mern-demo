@@ -16,7 +16,7 @@ function App() {
   }, []);
 
   const addData = (newData) => {
-    setData([...data, newData]);
+    setData([newData, ...data]);
     fetch("http://localhost:5500/pastebin", {
       method: "post",
       body: JSON.stringify({
@@ -26,6 +26,7 @@ function App() {
         'Content-Type': 'application/json'
       },
     }).then(data => data.json()).then(data => {
+      throw new Error("MOck!");
       console.log(data);
     });
   }

@@ -29,8 +29,10 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        working-directory: ./server
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: DATADOG_API_KEY=f5dd500751ec1670742bbf8907a9b0b5 datadog-ci git-metadata upload
-    - run: npm test
+    - name: Install dependencies for server
+      run: |
+        npm ci
+        npm run build --if-present
+        DATADOG_API_KEY=f5dd500751ec1670742bbf8907a9b0b5 datadog-ci git-metadata upload
+      working-directory: ./server
+   

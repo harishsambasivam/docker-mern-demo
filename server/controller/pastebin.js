@@ -33,7 +33,22 @@ async function addData(newData) {
 }
 
 
+const deleteData = async (id) => {
+    logger.info("Controller: Delete data");
+
+    try {
+        const data = await Data.destroy(id);
+        return data;
+    } catch (err) {
+        logger.error(err);
+        err.statusCode = 400;
+        throw err;
+    }
+}
+
+
 module.exports = {
     getPastedData,
-    addData
+    addData,
+    deleteData
 }

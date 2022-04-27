@@ -27,11 +27,6 @@ server.use(contextMiddleware);
 
 server.use(pinoHttpLogger(logger));
 
-server.use((req, res, next) => {
-    req.log.info('something else');
-    next()
-})
-
 server.use('/pastebin', pasteBinRouter);
 
 server.listen(process.env.PORT, () => {

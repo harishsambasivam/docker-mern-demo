@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getPastedData, addData } = require("../controller/pastebin");
+const { getPastedData, addData, deleteData } = require("../controller/pastebin");
 const { logger } = require("../config/logger");
 
 
@@ -27,10 +27,25 @@ router.post("/", async (req, res, next) => {
     try {
         const data = req.body;
         const result = await addData(data);
-        // res.status(200).json({
-        //     data: result,
-        //     status: "success"
-        // })
+        res.status(200).json({
+            data: result,
+            status: "success"
+        })
+    } catch (err) {
+        logger.error(err);
+        next(err);
+    }
+});
+
+router.delete("/", async (req, res, next) => {
+    logger.info("Router: DELETE /pastedData");
+    try {
+        const id = req.query.id;
+        const result = await deleteData(id);
+        res.status(200).json({
+            data: result,
+            status: "success"
+        })
     } catch (err) {
         logger.error(err);
         next(err);

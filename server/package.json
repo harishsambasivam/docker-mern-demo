@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "byjus-logger": "file:../../byjus-logger",
     "cors": "^2.8.5",
     "dd-trace": "^2.5.0",
     "dotenv": "^16.0.0",

@@ -9,6 +9,7 @@ const getPastedData = async () => {
                 ['createdAt', 'DESC'],
             ],
         });
+        logger.debug(data);
         return data;
     } catch (err) {
         logger.error(err);
@@ -23,8 +24,8 @@ async function addData(newData) {
     try {
         newData.text = newData.text !== "" ? newData.text : null;
         const data = await Data.create(newData);
+        logger.debug(data);
         return data;
-
     } catch (err) {
         logger.error(err);
         err.statusCode = 400;
@@ -38,6 +39,7 @@ const deleteData = async (id) => {
 
     try {
         const data = await Data.destroy(id);
+        logger.debug(data);
         return data;
     } catch (err) {
         logger.error(err);

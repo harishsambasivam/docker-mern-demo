@@ -9,7 +9,8 @@ const tracer = require('dd-trace').init({
 const express = require("express");
 const server = express();
 const cors = require('cors');
-const { contextMiddleware, logger, httpLogger, pinoHttpLogger } = require("./config/logger");
+const { logger } = require("./config/logger");
+// const { contextMiddleware, logger, httpLogger } = require("./config/logger");
 const { connect } = require("./config/db");
 const pasteBinRouter = require("./routes/pastebin");
 const sequelize = connect();
@@ -21,11 +22,10 @@ server.use(express.json());
 
 server.use(cors());
 
-server.use(contextMiddleware);
+// server.use(contextMiddleware);
 
 // server.use(httpLogger(logger));
 
-server.use(pinoHttpLogger(logger));
 
 server.use('/pastebin', pasteBinRouter);
 

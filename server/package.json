@@ -6,11 +6,13 @@
   "scripts": {
     "start": "nodemon .",
     "dev": "DD_ENV=$(grep NODE_ENV .env | cut -d '=' -f2) DD_PROFILING_ENABLED=true node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "datadog-ci": "DATADOG_API_KEY=f5dd500751ec1670742bbf8907a9b0b5 datadog-ci git-metadata upload"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@datadog/datadog-ci": "^1.3.0",
     "cors": "^2.8.5",
     "dd-trace": "^2.5.0",
     "dotenv": "^16.0.0",

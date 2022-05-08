@@ -1,5 +1,5 @@
 const Data = require("../models/Data");
-const { logger } = require("../config/logger");
+const  logger  = require("byjus-logger")({module:"controller"});
 
 const getPastedData = async () => {
     logger.info("Controller: Get Pasted Data");
@@ -9,7 +9,6 @@ const getPastedData = async () => {
                 ['createdAt', 'DESC'],
             ],
         });
-        logger.debug(data);
         return data;
     } catch (err) {
         logger.error(err);
@@ -24,7 +23,6 @@ async function addData(newData) {
     try {
         newData.text = newData.text !== "" ? newData.text : null;
         const data = await Data.create(newData);
-        logger.debug(data);
         return data;
     } catch (err) {
         logger.error(err);

@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const { logger } = require('./logger');
+const  logger  = require('byjus-logger')({"module":"database"});
 let connection = null;
 
 const connect = () => {

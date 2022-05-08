@@ -1,17 +1,9 @@
-// const ByjusLogger = require('byjus-logger');
+const ByjusLogger = require('byjus-logger');
 
-// const { contextMiddleware, logger, httpLogger, byjusLogger } = ByjusLogger.init("dev", {
-//     pretty: true
-// });
+console.log(ByjusLogger)
 
+const byjusLogger = ByjusLogger("development", {
+    pretty: true,
+});
 
-// module.exports = {
-//     contextMiddleware,
-//     logger,
-//     httpLogger,
-// }
-const logger = console;
-
-module.exports = {
-    logger
-}
+module.exports = byjusLogger;

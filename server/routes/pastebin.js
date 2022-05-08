@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { getPastedData, addData, deleteData } = require("../controller/pastebin");
-const { logger } = require("../config/logger");
+const  logger  = require("byjus-logger")({module:"router"});
 
 
 router.get("/", async (req, res) => {

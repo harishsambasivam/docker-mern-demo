@@ -1,10 +1,13 @@
-const express = require("express");
-const router = express.Router();
+// const express = require("express");
+// const router = express.Router();
+
+const router = require("express-promise-router")();
+
 const { getPastedData, addData, deleteData } = require("../controller/pastebin");
 const  logger  = require("byjus-logger")({module:"router"});
 
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res,next) => {
     logger.info("Router: GET /pastedData");
     try {
         const data = await getPastedData();
@@ -13,6 +16,9 @@ router.get("/", async (req, res) => {
             status: "success"
         });
     } catch (err) {
+        // throw err;
+        // next(err);
+        // console.log("%%%%%%%: "+ err);
         logger.error(err);
         return res.status(err.statusCode || 500).json({
             status: "error",

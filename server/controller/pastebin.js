@@ -9,6 +9,7 @@ const getPastedData = async () => {
                 ['createdAt', 'DESC'],
             ],
         });
+        throw new Error("Mock Error: Should appear in datadog");
         return data;
     } catch (err) {
         logger.error(err);

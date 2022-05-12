@@ -7,10 +7,16 @@ const express = require("express");
 const server = express();
 const cors = require('cors');
 
-const logger = require('byjus-logger')("production", {
-    pretty: true,
-});
+const { init, correlationMiddleware, contextMiddleware } = require('@harishsambasivam/pino-logger-poc');
 
+const logger = init("development",{
+    pretty: true,
+    redact: {
+        paths: ['message.cardNo'],
+        // remove: true,
+        censor: '**GDPR COMPLIANT**'
+      }
+});
 
 const { connect } = require("./config/db");
 const pasteBinRouter = require("./routes/pastebin");
@@ -21,22 +27,22 @@ server.use(express.json());
 
 server.use(cors());
 
-server.use(logger.correlationMiddleware());
-server.use(logger.contextMiddleware);
+server.use(correlationMiddleware());
+server.use(contextMiddleware(logger));
 
 // server.use(logger.http);
 
 server.use((req, res, next) => {
     let oldSend = res.send
-    res.send = function(data) {
-        if(res.statusCode === 500){
+    res.send = function (data) {
+        if (res.statusCode === 500) {
             const span = tracer.scope().active();
-            span.setTag('error.type','test');
-            span.setTag('error.message',data);
-            span.setTag('error.stack','test');
+            span.setTag('error.type', 'test');
+            span.setTag('error.message', data);
+            span.setTag('error.stack', 'test');
             span.addTags({
                 errorMessage: data,
-              })
+            })
         }
         res.send = oldSend // set function back to avoid the 'double-send'
         return res.send(data) // just call as normal with data

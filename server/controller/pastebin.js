@@ -1,8 +1,12 @@
 const Data = require("../models/Data");
-const  logger  = require("byjus-logger")({module:"controller"});
+const  logger  = require('@harishsambasivam/pino-logger-poc').child({ module:"controller" });
 
 const getPastedData = async () => {
     logger.info("Controller: Get Pasted Data");
+    logger.debug("Controller: Get Pasted Data");
+    logger.error(Error("Controller: Get Pasted Data"));
+    logger.fatal(Error("Controller: Get Pasted Data"));
+    logger.warn("Controller: Get Pasted Data");
     try {
         const data = await Data.findAll({
             order: [

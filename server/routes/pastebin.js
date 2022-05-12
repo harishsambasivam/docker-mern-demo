@@ -4,11 +4,14 @@
 const router = require("express-promise-router")();
 
 const { getPastedData, addData, deleteData } = require("../controller/pastebin");
-const  logger  = require("byjus-logger")({module:"router"});
+const  logger  = require('@harishsambasivam/pino-logger-poc').child({module:"router"});
 
 
 router.get("/", async (req, res,next) => {
-    logger.info("Router: GET /pastedData");
+    logger.info({ 
+        module: "Router: GET /pastedData",
+        cardNo: "8290890923890"
+    });
     try {
         const data = await getPastedData();
         return res.status(200).json({

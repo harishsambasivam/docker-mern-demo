@@ -2,18 +2,15 @@ const Data = require("../models/Data");
 const  logger  = require('@harishsambasivam/pino-logger-poc').child({ module:"controller" });
 
 const getPastedData = async () => {
-    logger.info("Controller: Get Pasted Data");
-    logger.debug("Controller: Get Pasted Data");
-    logger.error(Error("Controller: Get Pasted Data"));
-    logger.fatal(Error("Controller: Get Pasted Data"));
-    logger.warn("Controller: Get Pasted Data");
+    // logger.error(Error("Controller: Get Pasted Data"));
     try {
         const data = await Data.findAll({
+            limit: 5,
             order: [
                 ['createdAt', 'DESC'],
             ],
         });
-        throw new Error("Mock Error: Should appear in datadog");
+        // throw new Error("Mock Error: Should appear in datadog");
         return data;
     } catch (err) {
         logger.error(err);
@@ -24,7 +21,6 @@ const getPastedData = async () => {
 
 async function addData(newData) {
     logger.info("Controller: Add New Data");
-
     try {
         newData.text = newData.text !== "" ? newData.text : null;
         const data = await Data.create(newData);

@@ -1,22 +1,35 @@
 
 require('dotenv').config();
 
-const tracer = require('dd-trace').init();
+const tracer = require('dd-trace').init({
+    prod: "developement",
+    logs_enabled: true,
+    profiling: true,
+    logInjection: true
+
+});
 
 const express = require("express");
 const server = express();
 const cors = require('cors');
 
-const { init, correlationMiddleware, contextMiddleware } = require('@harishsambasivam/pino-logger-poc');
+const { initLogger } = require('@harishsambasivam/pino-logger-poc');
 
-const logger = init("development",{
+const {contextMiddleware,correlationMiddleware, logger} = initLogger("development",{
     pretty: true,
+    targetFile: "./logs/pino3.log",
     redact: {
         paths: ['message.cardNo'],
         // remove: true,
         censor: '**GDPR COMPLIANT**'
+      },
+      logProps: {
+          service : "ums"
       }
 });
+
+// set levels
+logger.setLevel("debug");
 
 const { connect } = require("./config/db");
 const pasteBinRouter = require("./routes/pastebin");

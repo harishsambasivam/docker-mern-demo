@@ -1,8 +1,7 @@
 const Data = require("../models/Data");
-const  logger  = require('@harishsambasivam/pino-logger-poc').child({ module:"controller" });
 
 const getPastedData = async () => {
-    // logger.error(Error("Controller: Get Pasted Data"));
+    console.log(Error("Controller: Get Pasted Data"));
     try {
         const data = await Data.findAll({
             limit: 5,
@@ -10,38 +9,34 @@ const getPastedData = async () => {
                 ['createdAt', 'DESC'],
             ],
         });
-        // throw new Error("Mock Error: Should appear in datadog");
         return data;
     } catch (err) {
-        logger.error(err);
+        console.log(err);
         throw err;
     }
 }
 
 
 async function addData(newData) {
-    logger.info("Controller: Add New Data");
+    console.log("Controller: Add New Data");
     try {
         newData.text = newData.text !== "" ? newData.text : null;
         const data = await Data.create(newData);
         return data;
     } catch (err) {
-        logger.error(err);
-        err.statusCode = 400;
+        console.log({err, function:"addData"});
         throw err;
     }
 }
 
-
 const deleteData = async (id) => {
-    logger.info("Controller: Delete data");
-
+    console.log("Controller: Delete data");
     try {
         const data = await Data.destroy(id);
         logger.debug(data);
         return data;
     } catch (err) {
-        logger.error(err);
+        console.log(err);
         err.statusCode = 400;
         throw err;
     }

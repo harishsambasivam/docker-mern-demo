@@ -1,29 +1,19 @@
-// const express = require("express");
-// const router = express.Router();
-
 const router = require("express-promise-router")();
-
 const { getPastedData, addData, deleteData } = require("../controller/pastebin");
-const  logger  = require('@harishsambasivam/pino-logger-poc').child({module:"router"});
 
 
-router.get("/", async (req, res,next) => {
-    logger.info({ 
-        module: "Router: GET /pastedData",
-        cardNo: "8290890923890"
-    });
+router.get("/", async (req, res, next) => {
+    console.log("Router: GET pastedData/");
     try {
         const data = await getPastedData();
         return res.status(200).json({
             data,
             status: "success"
         });
+        // throw new Error("Unauthorized!!!");
     } catch (err) {
-        // throw err;
         // next(err);
-        // console.log("%%%%%%%: "+ err);
-        logger.error(err);
-        return res.status(err.statusCode || 500).json({
+        return res.status(err.statusCode || 401).json({
             status: "error",
             message: err.message || "Something went wrong"
         })
@@ -32,22 +22,22 @@ router.get("/", async (req, res,next) => {
 
 
 router.post("/", async (req, res, next) => {
-    logger.info("Router: POST /pastedData");
+    console.log("Router: POST pastedData/");
     try {
-        const data = req.body;
-        const result = await addData(data);
-        res.status(200).json({
-            data: result,
-            status: "success"
-        })
+        // const data = req.body;
+        // const result = await addData(data);
+        // res.status(201).json({
+        //     data: result,
+        //     status: "success"
+        // })
+        throw new Error("post error");
     } catch (err) {
-        logger.error(err);
         next(err);
     }
 });
 
 router.delete("/", async (req, res, next) => {
-    logger.info("Router: DELETE /pastedData");
+    console.log("Router: DELETE pastedData/");
     try {
         const id = req.query.id;
         const result = await deleteData(id);
@@ -56,7 +46,6 @@ router.delete("/", async (req, res, next) => {
             status: "success"
         })
     } catch (err) {
-        logger.error(err);
         next(err);
     }
 });
